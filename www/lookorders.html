@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Информация по заказам</title>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!--  -->
+            <h1>{{message}}</h1>
+
+            <div>Список заказов</div>
+
+            <ul>
+                <li v-for="order in orders">{{orders.Details}} {{orders.status}}</li>
+            </ul>
+
+        </div>
+        <script>
+            const HelloApp = {
+                data() {
+                    return {
+                        message: 'Список заказов',
+                        coaches: []
+                    }
+                },
+                created() {
+                    this.OrdersGet()
+                },
+                methods:{
+                    OrdersGet() {
+                        axios.get('http://localhost:9098/company/orders')
+                        .then(response=>{
+                            this.orders = response.data.orders
+                        })
+                        .catch(error=>{
+                            this.message ='Ошибка!!!'+error
+                        })
+                    }
+                }
+            }
+            var app = Vue.createApp(HelloApp).mount('#app')
+
+        </script>
+    </body>
+</html>

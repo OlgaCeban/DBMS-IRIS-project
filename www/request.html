@@ -1,0 +1,68 @@
+<!DOCTYPE html>   
+<html>   
+<head>  
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>Заявка на заказ</title>
+</head>
+<body>
+    <div id="app">
+            <center><h1>Заполните ваши данные и опишите подробности задач, которые нужно решить</h1></center>
+            <form id="formID">
+                <p><b>Ваше ФИО:</b><br>
+                <input id="FIO" type="text" size="40" placeholder="введите ФИО" name="FIO" required>
+                </p>
+                <p><b>Ваш E-mail:</b><br>
+                <input id="Email" type="text" size="40" placeholder="введите почту" name="Email" required>
+                </p>
+                <p><b>Вaш номер телефона:</b><br>
+                <input id="Phone" type="text" size="40" placeholder="введите номер телефона" name="phone" required>
+                </p>
+                <p><b>Чем мы можем Вам помочь?</b><br>
+                <textarea name="comment" cols="40" rows="3"></textarea></p>
+                <p><input type="submit" value="Отправить">
+                <input type="reset" value="Очистить"></p>
+            </form>
+
+
+    </div>
+    <script>
+        function clientSubmit(event) {
+            var fioValue = document.getElementById("FIO").value;
+            var emailValue = document.getElementById("Email").value;
+            var phoneValue = document.getElementById("Phone").value;
+            const http = new XMLHttpRequest();
+            http.onload = () => {
+                const response = JSON.parse(http.responseText);
+                console.log(response);
+            };
+            const json = {
+                "FIO": fioValue,
+                "Email": emailValue,
+                "Phone": phoneValue
+            };
+            http.open('POST', 'http://localhost:9098/company/client');
+            http.onreadystatechange = function() {
+                if(http.readyState==4) {
+
+                    window.location.href = "welcome_page.html";
+                }
+            }
+
+            http.setRequestHeader("Content-Type", "application/json");
+            http.send(JSON.stringify(json))
+            event.preventDefault();
+        }
+        
+        const form = document.getElementById('formID');
+        form.addEventListener('submit', clientSubmit);
+            
+    </script>
+
+    <h3>Если Вы у нас уже делали заказ, то можете посмотреть Ваши прошлые заказы</h3>
+    <p><a href="lookorders.html">Посмотреть заказы</a></p>
+
+    <h3>Или оставить свой отзыв. Спасибо, что выбираете нас!</h3>
+    <p><a href="review.html">Оставить отзыв</a></p>
+
+</body>
+</html>

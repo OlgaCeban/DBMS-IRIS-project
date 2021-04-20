@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>VUE demo</title>
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!--  -->
+            <h1>{{message}}</h1>
+
+            <div>Список клиентов</div>
+            <ul>
+                <li v-for="client in clients">{{clients.FIO}} {{clients.DOB}}</li>
+            </ul>
+            <div>Список обзоров</div>
+            <ul>
+                <li v-for="review in reviews">{{Review.Review}}</li>
+            </ul>
+            <div>Список сотрудников</div>
+            <ul>
+                <li v-for="staff in staff">{{Staff.FIO} {Staff.Position}}</li>
+            </ul>
+
+        </div>
+        <script>
+            const HelloApp = {
+                data() {
+                    return {
+                        message: 'Список клиентов, их обзоров и сотрудников',
+                        coaches: []
+                    }
+                },
+                created() {
+                    this.ClientsGet()
+                    this.ReviewGet()
+                    this.getAllStaff()
+                },
+                methods:{
+                    ClientsGet() {
+                        axios.get('http://localhost:9098/company/clients')
+                        .then(response=>{
+                            this.clients = response.data.clients
+                        })
+                        .catch(error=>{
+                            this.message ='Ошибка!!!'+error
+                        })
+                    }
+                    ReviewGet(){
+                        axios.get('http://localhost:9098/company/reviews')
+                        .then(response=>{
+                            this.Review = response.data.Review
+                        })
+                        .catch(error=>{
+                            this.message ='Ошибка!!!'+error
+                        })
+                    }
+                    getAllStaff(){
+                        axios.get('http://localhost:9098/company/staff')
+                        .then(response=>{
+                            this.Staff = response.data.Staff
+                        })
+                        .catch(error=>{
+                            this.message ='Ошибка!!!'+error
+                        })
+                    }
+                }
+            }
+            var app = Vue.createApp(HelloApp).mount('#app')
+        </script>
+    </body>
+</html>
