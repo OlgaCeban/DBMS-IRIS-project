@@ -12,7 +12,7 @@ Class Company.Staff Extends %Persistent
 
     Property DOB As %Date;
 
-    Relationship Orders As Company.Orders(%JSONINCLUDE = "none") [Cardinality = many, Inverse = Staff];
+    Relationship Orders As Company.Orders [Cardinality = many, Inverse = Staff];
 
     ClassMethod SaveStaff(staffObj As Company.Staff) As %Status
     {
