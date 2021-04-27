@@ -9,9 +9,7 @@ Class Company.Clients Extends %Persistent
 
     Property DOB As %Date;
 
-    Relationship Orders As Company.Orders(%JSONINCLUDE = "none") [ Cardinality = one, Inverse = Client];
-
-    Relationship Reviews As Company.Review(%JSONINCLUDE = "none") [ Cardinality = many, Inverse = Client];
+    Relationship Orders As Company.Orders[Cardinality = many, Inverse = Client];
 
     ClassMethod CreateClient(FIO As %String = "", Email As %String = "",
                             Phone As %String = "", DOB As %Date = 0) As Company.Clients
