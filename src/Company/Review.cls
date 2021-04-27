@@ -3,8 +3,7 @@ Class Company.Review Extends %Persistent
     /// Description
     Property Review As %String;
 
-    Relationship Clients As Company.Staff(%JSONINCLUDE = "none") [Cardinality = one, Inverse = Review];
-
+    Relationship Orders As Company.Orders[Cardinality = many, Inverse = Review];
 
     ClassMethod SaveReview(ReviewObj As Company.Review) As %Status
     {
