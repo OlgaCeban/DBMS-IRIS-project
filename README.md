@@ -8,4 +8,4 @@
 
 Схема БД
 
-![image](https://user-images.githubusercontent.com/36361220/115434135-03649800-a211-11eb-89ff-d6c21ef99555.png)
+![image](https://user-images.githubusercontent.com/36361220/116285142-85673a80-a796-11eb-9d12-9409a7ec6951.png)
