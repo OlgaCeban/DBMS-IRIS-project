@@ -5,9 +5,11 @@ Class Company.Orders Extends %Persistent
 
     Property Status As %String;
 
-    Relationship Staff As Company.Staff(%JSONINCLUDE = "none") [Cardinality = one, Inverse = Orders];
+    Relationship Client As Company.Clients [Cardinality = one, Inverse = Orders];
 
-    Relationship Clients As Company.Clients(%JSONINCLUDE = "none") [Cardinality = one, Inverse = Orders];
+    Relationship Staff As Company.Staff [Cardinality = one, Inverse = Orders];
+
+    Relationship Review As Company.Review [Cardinality = one, Inverse = Orders];
 
     ClassMethod SaveOrder(OrderObj As Company.Orders) As %Status
     {
