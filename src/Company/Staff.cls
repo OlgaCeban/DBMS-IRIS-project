@@ -1,21 +1,22 @@
-Class Company.Staff Extends %Persistent
+Class Company.Staff Extends (%Persistent, %Populate)
 {
-    Property FIO As %String[Required];
 
-    Property Salary As %Integer (MAXVAL = 1000000, MINVAL = 1);
+Property FIO As %String [ Required ];
 
-    Property Position As %String;
+Property Salary As %Integer(MAXVAL = 1000000, MINVAL = 1);
 
-    Property Email As %String;
-    
-    Property Phone As %String;
+Property Position As %String;
 
-    Property DOB As %Date;
+Property Email As %String;
 
-    Relationship Orders As Company.Orders [Cardinality = many, Inverse = Staff];
+Property Phone As %String;
 
-    ClassMethod SaveStaff(staffObj As Company.Staff) As %Status
-    {
+Property DOB As %Date;
+
+Relationship Orders As Company.Orders [ Cardinality = many, Inverse = Staff ];
+
+ClassMethod SaveStaff(staffObj As Company.Staff) As %Status
+{
         set obj = ##class(Company.Staff).%New()
 
         set obj.FIO = staffObj.FIO
@@ -38,10 +39,10 @@ Class Company.Staff Extends %Persistent
 
         set result = obj.%Save()
         return result
-    }
+}
 
-    Method getAll(data) As %String
-    {
+Method getAll(data) As %String
+{
         set data = []
         &sql(
             DECLARE MyCursor CURSOR FOR
@@ -61,5 +62,39 @@ Class Company.Staff Extends %Persistent
         &sql(CLOSE MyCursor)
         
         quit
-    }
+}
+
+Storage Default
+{
+<Data name="StaffDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>FIO</Value>
+</Value>
+<Value name="3">
+<Value>Salary</Value>
+</Value>
+<Value name="4">
+<Value>Position</Value>
+</Value>
+<Value name="5">
+<Value>Email</Value>
+</Value>
+<Value name="6">
+<Value>Phone</Value>
+</Value>
+<Value name="7">
+<Value>DOB</Value>
+</Value>
+</Data>
+<DataLocation>^Company.StaffD</DataLocation>
+<DefaultData>StaffDefaultData</DefaultData>
+<IdLocation>^Company.StaffD</IdLocation>
+<IndexLocation>^Company.StaffI</IndexLocation>
+<StreamLocation>^Company.StaffS</StreamLocation>
+<Type>%Storage.Persistent</Type>
+}
+
 }

@@ -12,7 +12,7 @@
             <div>Список заказов</div>
 
             <ul>
-                <li v-for="order in orders">{{orders.Details}} {{orders.status}}</li>
+                <li v-for="order in orders">{{order.Details}} {{order.Status}}</li>
             </ul>
 
         </div>
@@ -21,7 +21,7 @@
                 data() {
                     return {
                         message: 'Список заказов',
-                        coaches: []
+                        orders: []
                     }
                 },
                 created() {
@@ -29,9 +29,10 @@
                 },
                 methods:{
                     OrdersGet() {
-                        axios.get('http://localhost:9098/company/orders')
+                        axios.get('http://localhost:9098/bmstuapi/orders/get')
                         .then(response=>{
-                            this.orders = response.data.orders
+                            console.log(response);
+                            this.orders = response.data
                         })
                         .catch(error=>{
                             this.message ='Ошибка!!!'+error

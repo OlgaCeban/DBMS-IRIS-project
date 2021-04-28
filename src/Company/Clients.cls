@@ -1,19 +1,18 @@
-Class Company.Clients Extends %Persistent
+Class Company.Clients Extends (%Persistent, %Populate)
 {
-    
-    Property FIO As %String  [ Required ];
 
-    Property Email As %String;
+Property FIO As %String [ Required ];
 
-    Property Phone As %String;
+Property Email As %String;
 
-    Property DOB As %Date;
+Property Phone As %String;
 
-    Relationship Orders As Company.Orders[Cardinality = many, Inverse = Client];
+Property DOB As %Date;
 
-    ClassMethod CreateClient(FIO As %String = "", Email As %String = "",
-                            Phone As %String = "", DOB As %Date = 0) As Company.Clients
-    {
+Relationship Orders As Company.Orders [ Cardinality = many, Inverse = Client ];
+
+ClassMethod CreateClient(FIO As %String = "", Email As %String = "", Phone As %String = "", DOB As %Date = 0) As Company.Clients
+{
         set client = ..%New()
         set client.FIO = FIO
         set client.Email = Email
@@ -21,10 +20,10 @@ Class Company.Clients Extends %Persistent
         set client.DOB = DOB
         set st = client.%Save()
         return client
-    }
+}
 
-    ClassMethod SaveClient(clientObj As Company.Clients) As %Status
-    {
+ClassMethod SaveClient(clientObj As Company.Clients) As %Status
+{
         set obj = ##class(Company.Clients).%New()
 
         set obj.FIO = clientObj.FIO
@@ -41,22 +40,22 @@ Class Company.Clients Extends %Persistent
 
         set result = obj.%Save()
         return result
-    }
+}
 
-    ClassMethod GetClient(ID As %Integer) As Company.Clients
-    {
+ClassMethod GetClient(ID As %Integer) As Company.Clients
+{
         set obj = ##class(Company.Clients).%OpenId(ID)
         Return obj
-    }
+}
 
-    ClassMethod DeleteClient(ID As %Integer) As %Status
-    {
+ClassMethod DeleteClient(ID As %Integer) As %Status
+{
         set result = ##class(Company.Clients).%DeleteId(ID)
         Return result
-    }
+}
 
-    Method GetClients(data) As %String
-    {
+Method GetClients(data) As %String
+{
         set data = []
         &sql(
             DECLARE MyCursor CURSOR FOR
@@ -76,6 +75,33 @@ Class Company.Clients Extends %Persistent
         &sql(CLOSE MyCursor)
         
         quit
-    }
+}
+
+Storage Default
+{
+<Data name="ClientsDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>FIO</Value>
+</Value>
+<Value name="3">
+<Value>Email</Value>
+</Value>
+<Value name="4">
+<Value>Phone</Value>
+</Value>
+<Value name="5">
+<Value>DOB</Value>
+</Value>
+</Data>
+<DataLocation>^Company.ClientsD</DataLocation>
+<DefaultData>ClientsDefaultData</DefaultData>
+<IdLocation>^Company.ClientsD</IdLocation>
+<IndexLocation>^Company.ClientsI</IndexLocation>
+<StreamLocation>^Company.ClientsS</StreamLocation>
+<Type>%Storage.Persistent</Type>
+}
 
 }
